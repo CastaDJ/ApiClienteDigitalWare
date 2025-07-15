@@ -39,9 +39,9 @@ public class Controller {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> getById(@RequestParam Integer param) {
+    public ResponseEntity<Cliente> getById(@PathVariable Integer id) {
         try {
-            Cliente cliente = clienteService.getClienteById(param);
+            Cliente cliente = clienteService.getClienteById(id);
             if (cliente != null) {
                 return ResponseEntity.ok(cliente);
             } else {
@@ -76,7 +76,7 @@ public class Controller {
         }
     }
     
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCliente(@PathVariable Integer id) {   
         try {
             clienteService.deleteCliente(id);
