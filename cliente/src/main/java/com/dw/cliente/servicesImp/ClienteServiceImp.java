@@ -27,25 +27,45 @@ public class ClienteServiceImp implements ClienteService {
 
     @Override
     public Cliente getClienteById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getClienteById'");
+      try{
+            return repository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Client not found with id: " + id));
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving client with id: " + id, e);
+      }
     }
 
     @Override
     public Cliente createCliente(Cliente cliente) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createCliente'");
+        try {
+            return repository.save(cliente);
+        } catch (Exception e) {
+            throw new RuntimeException("Error creating client", e);
+        }
     }
 
     @Override
     public Cliente updateCliente(Integer id, Cliente cliente) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateCliente'");
+        try {
+            if (!repository.existsById(id)) {
+                throw new RuntimeException("Client not found with id: " + id);
+            }
+            cliente.setId(id);
+            return repository.save(cliente);
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating client with id: " + id, e);
+        }
     }
 
     @Override
     public void deleteCliente(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteCliente'");
+        try {
+            if (!repository.existsById(id)) {
+                throw new RuntimeException("Client not found with id: " + id);
+            }
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting client with id: " + id, e);
+        }
     }
 }
